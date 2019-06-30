@@ -1,5 +1,5 @@
-output "minishift_dns_name" {
-  value = "${digitalocean_domain.minishift.name}"
+output "minishift_fqdn" {
+  value = "${digitalocean_record.minishift.fqdn}"
 }
 
 output "minishift_ipv4" {
