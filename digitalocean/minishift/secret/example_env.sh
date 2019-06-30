@@ -1,3 +1,7 @@
+# 
+# fill in these values AND rename file to env.sh!
+# 
+
 export TF_VAR_do_token=xxx
 
 # used for login to droplet by remote_exec provisioner

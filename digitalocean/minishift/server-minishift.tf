@@ -6,8 +6,8 @@ resource "digitalocean_droplet" "minishift" {
     name = "minishift"
     region = "fra1"
     
-    # size = "s-4vcpu-8gb"
-    size = "s-1vcpu-1gb"
+    size = "s-4vcpu-8gb"
+    # size = "s-1vcpu-1gb"
     
     private_networking = true
     ssh_keys = [
@@ -26,6 +26,7 @@ resource "digitalocean_droplet" "minishift" {
     } 
     
     provisioner "remote-exec" {
+        # install minishift!
         inline = [
             "export PATH=$PATH:/usr/bin",
             "echo $(date) > /tmp/installed_by_terraform.txt",
@@ -33,15 +34,15 @@ resource "digitalocean_droplet" "minishift" {
             "cd /root && curl -L https://github.com/minishift/minishift/releases/download/v1.34.0/minishift-1.34.0-linux-amd64.tgz -o - | tar xvzf -",
             "ln -s /root/minishift-1.34.0-linux-amd64/minishift  /usr/bin/minishift",
             "mkdir /root/.ssh",
-            "ssh-keygen.exe  -t ed25519 -C minishift_local_ssh -N - -f /root/.ssh/id_ed25519",
+            "ssh-keygen -t ed25519 -C minishift_local_ssh_key -N - -f /root/.ssh/id_ed25519",
             "minishift config set vm-driver generic",
             "minishift config set remote-ipaddress minishift.2i.at",
             "minishift config set public-hostname minishift.2i.at",
             "minishift config set remote-ssh-user root",
             "minishift config set remote-ssh-key /root/.ssh/id_ed25519",
             "minishift config set timezone Europe/Vienna",
-            "minishift config view"
-            # "minishift start --openshift-version v3.11.0"
+            "minishift config view",
+            "minishift start --openshift-version v3.11.0"
         ]
     }
 }    
