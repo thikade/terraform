@@ -9,8 +9,6 @@ resource "digitalocean_record" "minishift" {
   domain = "2i.at"
   type = "A"
   name = "minishift"
-  value = "${digitalocean_droplet.minishift.ipv4_address}"
+  value = digitalocean_droplet.minishift.ipv4_address
   ttl = 120
 }
-
-
