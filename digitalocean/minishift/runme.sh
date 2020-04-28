@@ -19,7 +19,7 @@ test -z "$TF_VAR_priv_key" && fatal "env variable TF_VAR_priv_key not set!\n$TOD
 echo "including sensitive variables => ok"
 
 # TF_LOG=INFO | DEBUG | TRACE
-export TF_LOG=INFO
+# export TF_LOG=INFO
 # i'm using TF for Windows ...
 export TF_CMD=/c/Apps/terraform/terraform
 
