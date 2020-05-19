@@ -60,8 +60,8 @@ resource "digitalocean_droplet" "minishift" {
             "oc completion bash > ~/.bash_completion.sh",
             "echo 'eval $(minishift oc-env)'     >> ~/.bashrc",
             "echo 'source ~/.bash_completion.sh' >> ~/.bashrc",
-            "cd /usr/local/bin; curl -s "https://raw.githubusercontent.com/\
-kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash; cd -",
+            "cd /usr/local/bin; curl -s 'https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh' | bash; cd -",
+            "wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.12.3/kubeseal-linux-amd64 -O /usr/local/bin/kubeseal; chmod 755 /usr/local/bin/kubeseal",
             "echo Done."
         ]
     }
