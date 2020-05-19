@@ -60,6 +60,8 @@ resource "digitalocean_droplet" "minishift" {
             "oc completion bash > ~/.bash_completion.sh",
             "echo 'eval $(minishift oc-env)'     >> ~/.bashrc",
             "echo 'source ~/.bash_completion.sh' >> ~/.bashrc",
+            "cd /usr/local/bin; curl -s "https://raw.githubusercontent.com/\
+kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash; cd -",
             "echo Done."
         ]
     }
