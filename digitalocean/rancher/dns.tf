@@ -19,3 +19,10 @@ resource "digitalocean_record" "rancher2" {
   value = digitalocean_droplet.rancher2.ipv4_address
   ttl = 120
 }
+resource "digitalocean_record" "rancher3" {
+  domain = "2i.at"
+  type = "A"
+  name = "rancher3"
+  value = digitalocean_droplet.rancher3.ipv4_address
+  ttl = 120
+}

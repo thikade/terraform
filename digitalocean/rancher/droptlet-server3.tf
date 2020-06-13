@@ -1,9 +1,9 @@
-resource "digitalocean_droplet" "rancher1" {
+resource "digitalocean_droplet" "rancher3" {
 
     # image ==> DO droplet slug name
     image = "centos-7-x64"
 
-    name = "rancher1"
+    name = "rancher3"
     region = "fra1"
 
     # size = "s-4vcpu-8gb"
@@ -17,7 +17,7 @@ resource "digitalocean_droplet" "rancher1" {
     ]
 
     connection {
-      host = digitalocean_droplet.rancher1.ipv4_address
+      host = digitalocean_droplet.rancher3.ipv4_address
       user = "root"
       type = "ssh"
       private_key = file(var.priv_key)

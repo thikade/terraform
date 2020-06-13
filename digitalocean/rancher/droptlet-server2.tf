@@ -28,13 +28,20 @@ resource "digitalocean_droplet" "rancher2" {
     provisioner "remote-exec" {
         inline = [
             "echo $(date) > /tmp/installed_by_terraform.txt",
-            "echo ipv4: ${digitalocean_droplet.rancher2.ipv4_address} >> /tmp/installed_by_terraform.txt",
-            # "echo ${digitalocean_droplet.rancher2.ipv4_address}   rancher2.2i.at >> /etc/hosts",
+            "useradd rancher && mkdir /home/rancher/.ssh && chmod 700 /home/rancher/.ssh",
+            "cat /root/.ssh/authorized_keys > /home/rancher/.ssh/authorized_keys && chown -R rancher.rancher /home/rancher/.ssh/",
             "yum -y update ",
-            "yum install -y docker podman buildah skopeo",
+            "yum install -y curl wget htop",
+            "yum -y remove docker || true",
+            "curl -L https://releases.rancher.com/install-docker/19.03.11.sh | sh",
+            "usermod -aG docker rancher",
+            "systemctl enable --now docker",
+            "echo 'net.bridge.bridge-nf-call-iptables = 1' > /etc/sysctl.d/rancher",
+            "sysctl net.bridge.bridge-nf-call-iptables=1",
+            "curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl",
+            "chmod 755 /usr/local/bin/kubectl",
             "setenforce 0",
-            "sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config",
-            "echo Done."
+            "sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config"
         ]
     }
 }
