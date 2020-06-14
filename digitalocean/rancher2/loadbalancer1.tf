@@ -45,7 +45,7 @@ resource "digitalocean_loadbalancer" "rancher" {
 resource "digitalocean_record" "rancher" {
   domain = "2i.at"
   type = "A"
-  name = "rancher.2i.at"
+  name = "rancher"
   value = digitalocean_loadbalancer.rancher.ip
   ttl = 180
 }
