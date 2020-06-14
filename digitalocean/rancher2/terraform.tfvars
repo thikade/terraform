@@ -1,8 +1,8 @@
 
 remote-exec-all-nodes = [
-              "setenforce 0",
-              "sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config",
-              "echo 'remote-exec user commands executed' >  /tmp/remote-exec.log",
+              # "setenforce 0",
+              # "sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config",
+              # "echo 'remote-exec user commands executed' >  /tmp/remote-exec.log",
               ]
 
 fingerprints =   [
@@ -12,11 +12,11 @@ fingerprints =   [
 
 projectName = "Rancher"
 
-nodeCount = 3
+nodeCount = 1
 
 tagList = [ "rancher-node", "FW-PRIVATE" ]
 
-droplet-size = "s-1vcpu-1gb"
+droplet-size = "s-4vcpu-8gb"
 
 nodeNames = [
   "rancher1",

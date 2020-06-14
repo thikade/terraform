@@ -32,13 +32,16 @@ chmod 755 /usr/local/bin/kubectl
 curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod 755 /usr/local/bin/docker-compose
 
+# DO agent update
+yum remove -y do-agent
+curl -sSL https://repos.insights.digitalocean.com/install.sh | bash
 
 # systemd stuff
 systemctl stop     rpcbind.service rpcbind.socket
 systemctl disable  rpcbind.service rpcbind.socket
 
 git config --global color.ui auto
-git config user.name thikade
+git config user.name rancher
 git config core.fileMode false
 
 echo "Setup complete." >> /tmp/setup.log
