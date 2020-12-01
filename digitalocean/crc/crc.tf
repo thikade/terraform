@@ -7,9 +7,8 @@ resource "digitalocean_droplet" "crc" {
     region = "fra1"
 
     # size = "s-1vcpu-1gb"
-    # size = "s-4vcpu-8gb"
-    # size = "s-8vcpu-16gb"
-    size = "c-8"
+    # size = "c-8"
+    size = "s-8vcpu-16gb"
 
     # only specific IPs can connect to droplets labelled with this tag!
     tags  = [ "FW-PRIVATE" ]
