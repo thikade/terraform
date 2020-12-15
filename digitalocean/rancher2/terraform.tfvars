@@ -16,7 +16,7 @@ nodeCount = 1
 
 tagList = [ "rancher-node", "FW-PRIVATE" ]
 
-droplet-size = "s-4vcpu-8gb"
+droplet-size = "s-2vcpu-4gb"
 
 nodeNames = [
   "rancher1",
