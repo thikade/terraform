@@ -1,8 +1,8 @@
 # -[Resources]-------------------------------------------------------------
 resource "libvirt_pool" "diskpooldir" {
-  name = "${var.hostname}P"
+  name = var.disk-pool-name
   type = "dir"
-  path = "${var.disk-pool-dir}/${var.hostname}"
+  path = "${var.disk-pool-dir}/${var.disk-pool-name}"
 }
 
 ##### resource "libvirt_volume" "RHCOS" {
@@ -12,14 +12,15 @@ resource "libvirt_pool" "diskpooldir" {
 
 resource "libvirt_volume" "CentOS8-cloud-image" {
   name   = "CentOS8-cloud-image"
-  source = "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20201217.0.x86_64.qcow2"
-  ##### source = "/download/CentOS-Stream-GenericCloud-8-20201217.0.x86_64.qcow2"
+  ##### source = "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20201217.0.x86_64.qcow2"
+  source = "/download/CentOS-Stream-GenericCloud-8-20201217.0.x86_64.qcow2"
   ##### source = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
   ##### source = "/download/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
 }
 
 resource "libvirt_volume" "rootvol" {
-  name   = "rootvol.qcow2"
+  name   = "${format(var.hostname_format, count.index + 1)}.qcow2"
+  count  = var.num-hosts
   pool   = libvirt_pool.diskpooldir.name
   size   = var.rootdiskBytes
   format = "qcow2"

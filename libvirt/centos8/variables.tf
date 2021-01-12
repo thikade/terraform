@@ -3,13 +3,24 @@ variable "rhcos-version" {
   type = string
   default = "4.6.8"
 }
+
 variable "rhcos-arch" {
   type = string
   default = "x86_64"
 }
-variable "hostname" {
+
+variable "num-hosts" {
+  default = 2
+}
+
+variable "hostname_format" {
+  type    = string
+  default = "centos8-%02d"
+}
+
+variable "disk-pool-name" {
   type = string
-  default = "centos8"
+  default = "CENTOS8-POOL"
 }
 
 variable "domain" {

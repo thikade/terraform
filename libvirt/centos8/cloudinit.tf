@@ -7,9 +7,10 @@
 data "template_file" "user_data" {
   ##### template = file("${path.module}/cloud_init_cfg")
   template = file("${path.module}/cloud_init_cfg")
+  count = var.num-hosts
   vars = {
-    hostname = var.hostname
-    fqdn = "${var.hostname}.${var.domain}"
+    hostname = format(var.hostname_format, count.index + 1)
+    fqdn = "${format(var.hostname_format, count.index + 1)}.${var.domain}"
   }
 }
 
@@ -19,8 +20,9 @@ data "template_file" "user_data" {
 
 # Use CloudInit ISO to add ssh-key to the instance
 resource "libvirt_cloudinit_disk" "commoninit" {
-          name = "${var.hostname}-commoninit.iso"
-          pool = libvirt_pool.diskpooldir.name
-          user_data = data.template_file.user_data.rendered
-#####           network_config = data.template_file.network_config.rendered
+  name = "${format(var.hostname_format, count.index + 1)}-commoninit.iso"
+  pool = libvirt_pool.diskpooldir.name
+  user_data = element(data.template_file.user_data.*.rendered, count.index + 1)
+#####   network_config = data.template_file.network_config.rendered
+  count = var.num-hosts
 }

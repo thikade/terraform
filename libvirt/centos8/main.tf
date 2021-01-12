@@ -1,6 +1,7 @@
 # -[VMs]-------------------------------------------------------------
-resource "libvirt_domain" "OS99" {
-  name = var.hostname
+resource "libvirt_domain" "CENTOS8" {
+  name   = format(var.hostname_format, count.index + 1)
+  count  = var.num-hosts
   vcpu   = "1"
   memory = "2048"
 
@@ -14,14 +15,14 @@ resource "libvirt_domain" "OS99" {
 ##### }
 
   disk {
-    volume_id = libvirt_volume.rootvol.id
+    volume_id = element(libvirt_volume.rootvol.*.id, count.index + 1)
   }
 
   boot_device {
     dev = [ "hd", "cdrom", "network" ]
   }
 
-  cloudinit = libvirt_cloudinit_disk.commoninit.id
+  cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index + 1)
 
   graphics {
     ## Bug in linux up to 4.14-rc2
@@ -40,9 +41,10 @@ resource "libvirt_domain" "OS99" {
 
   network_interface {
     network_name   = "NAT"
-    hostname       = "${var.hostname}.${var.domain}"
+    hostname       = "${format(var.hostname_format, count.index + 1)}.${var.domain}"
     ##### addresses      = ["10.17.3.3"]
-    mac            = var.NAT-0-mac
+    ##### mac            = var.NAT-0-mac
+    mac            = "52:54:00:00:00:a${count.index + 1}"
     wait_for_lease = true
   }
 }
