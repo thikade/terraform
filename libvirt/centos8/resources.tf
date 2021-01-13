@@ -1,13 +1,13 @@
 # -[Resources]-------------------------------------------------------------
 resource "libvirt_pool" "diskpooldir" {
-  name = var.disk-pool-name
+  name = var.disk_pool_name
   type = "dir"
-  path = "${var.disk-pool-dir}/${var.disk-pool-name}"
+  path = "${var.disk_pool_dir}/${var.disk_pool_name}"
 }
 
 ##### resource "libvirt_volume" "RHCOS" {
 #####   name   = "RHCOS"
-#####   source = "/vms/httpd/rhcos-${var.rhcos-version}-${var.rhcos-arch}-qemu.x86_64.qcow2"
+#####   source = "/vms/httpd/rhcos-${var.rhcos_version}-${var.rhcos_arch}-qemu.x86_64.qcow2"
 ##### }
 
 resource "libvirt_volume" "CentOS8-cloud-image" {
@@ -20,7 +20,7 @@ resource "libvirt_volume" "CentOS8-cloud-image" {
 
 resource "libvirt_volume" "rootvol" {
   name   = "${format(var.hostname_format, count.index + 1)}.qcow2"
-  count  = var.num-hosts
+  count  = var.num_hosts
   pool   = libvirt_pool.diskpooldir.name
   size   = var.rootdiskBytes
   format = "qcow2"
