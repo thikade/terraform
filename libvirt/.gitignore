@@ -1,0 +1,6 @@
+.terraform/
+secret/env.sh
+state/*
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup

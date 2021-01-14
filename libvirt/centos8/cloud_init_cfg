@@ -1,0 +1,41 @@
+#cloud-config
+hostname: ${hostname}
+fqdn: ${fqdn}
+manage_etc_hosts: true
+users:
+   - name: hhuebler
+     gecos: Hermann L. Huebler
+     sudo: ALL=(ALL) NOPASSWD:ALL
+     home: /home/hhuebler
+     shell: /bin/bash
+     plain_text_passwd: start123.
+     lock_passwd: false
+     ssh-authorized-keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILgucXHwYfcPHW2cMDP0poRG9TYqV+8IzEmduZmjbtrG os@hhuelinux
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGujoB4TIzH8vvTc1Qs8dDd47ZTw7Vx7ps6Up1Ynr7M hhuebler@2innovate.at
+# only cert auth via ssh (console access can still login)
+ssh_pwauth: true
+disable_root: false
+growpart:
+   mode: auto
+   devices: ["/"]
+   ignore_growroot_disabled: false
+chpasswd:
+   list: |
+      root:start123.
+      hhuebler:start123.
+   expire: False
+# test of writing content
+write_files:
+   - content: |
+        The quick brown fox jumped
+        over the lazy dog
+     path: /root/test.txt
+####
+# written to /var/log/cloud-init-output.log
+final_message: "The system is finally up, after $UPTIME seconds"
+##### ssh_pwauth: True
+##### chpasswd:
+#####    list: |
+#####       root:start123.
+#####    expire: False
