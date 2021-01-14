@@ -1,6 +1,5 @@
 # -[Variables]-------------------------------------------------------------
 
-
 variable "bootstrap_hostname_format" {
   type    = string
   default = "bs%02d"
@@ -60,7 +59,7 @@ variable "master_ign_file_name" {
 }
 
 variable "master_num_hosts" {
-  default = 1
+  default = 3
 }
 
 variable "master_num_vcpu" {
@@ -89,7 +88,12 @@ variable "rhcos_arch" {
 
 # 16Gb for root filesystem
 variable "rootdiskBytes" {
-  default = 1024*1024*1024*32
+  default = 1024*1024*1024*16
+}
+
+variable "worker_hostname_format" {
+  type    = string
+  default = "wo%02d"
 }
 
 variable "worker_ign_file_name" {
@@ -97,8 +101,15 @@ variable "worker_ign_file_name" {
   default = "/vms/httpd/worker.ign"
 }
 
-##### variable "kick-start-file" {
-#####   type = string
-#####   default = "k8sm00.cfg"
-##### }
-#####
+variable "worker_num_hosts" {
+  default = 2
+}
+
+variable "worker_num_vcpu" {
+  type = number
+  default = 2
+}
+
+variable "worker_mem_mb" {
+  default = 1024*8
+}
