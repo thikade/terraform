@@ -4,6 +4,43 @@ This terraform root workspace allows the creation of the KVM VMs to run Openshif
 
 ***Note***: This workspace creates only the VMs using the *ignition files* created via the OSCP installer before. It does not setup DNS, load balancer etc.
 
+## Pre-Requisits
+
+This workspace requires the following versions of
+
+- terraform
+- libvirt terraform provider
+
+
+```
+[hhuebler@hhuelinux oscp_upi]$ terraform providers
+
+Providers required by configuration:
+.
+├── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.rootvol_module_bootstrap
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.rootvol_module_master
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.rootvol_module_worker
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.stgpool_module
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.cloudimage_module
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.ignition_module_bootstrap
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+├── module.ignition_module_master
+│   └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+└── module.ignition_module_worker
+    └── provider[registry.terraform.io/dmacvicar/libvirt] 0.6.3
+
+[hhuebler@hhuelinux oscp_upi]$ terraform version
+Terraform v0.14.4
++ provider registry.terraform.io/dmacvicar/libvirt v0.6.3
+
+```
+
 ## Customizing the workspace for your needs
 
 The workspace was designed so that updates in `variables.tf` to set the desired values matching your environment should be sufficient. There you can for example adjust:
