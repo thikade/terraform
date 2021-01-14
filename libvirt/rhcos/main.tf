@@ -4,17 +4,30 @@
 
 module "stgpool_module" {
   source = "./modules/stgpool"
+  providers = {
+    libvirt = libvirt
+  }
+
   mod_disk_pool_dir = var.disk_pool_dir
   mod_disk_pool_name = var.disk_pool_name
 }
 
 module "cloudimage_module" {
   source = "./modules/cloudimage"
+  providers = {
+    libvirt = libvirt
+  }
+
   mod_volume_source = var.cloud_image_source
 }
 
 module "rootvol_module_bootstrap" {
   source = "./modules/rootvol"
+  providers = {
+    libvirt = libvirt
+  }
+  depends_on = [module.stgpool_module, module.cloudimage_module]
+
   mod_base_volume_id = module.cloudimage_module.cloud_image_id
   mod_disk_size_bytes = var.rootdiskBytes
   mod_hostname_format = var.bootstrap_hostname_format
@@ -22,13 +35,44 @@ module "rootvol_module_bootstrap" {
   mod_storage_pool_name = module.stgpool_module.storage_pool_name
 }
 
-
 module "ignition_module_bootstrap" {
   source = "./modules/ignition"
+  providers = {
+    libvirt = libvirt
+  }
+  depends_on = [module.stgpool_module]
+
   mod_disk_pool_name = var.disk_pool_name
   mod_hostname_format = var.bootstrap_hostname_format
   mod_ign_file_name = var.bootstrap_ign_file_name
   mod_num_hosts = var.bootstrap_num_hosts
+}
+
+module "rootvol_module_master" {
+  source = "./modules/rootvol"
+  providers = {
+    libvirt = libvirt
+  }
+  depends_on = [module.stgpool_module, module.cloudimage_module]
+
+  mod_base_volume_id = module.cloudimage_module.cloud_image_id
+  mod_disk_size_bytes = var.rootdiskBytes
+  mod_hostname_format = var.master_hostname_format
+  mod_num_hosts = var.master_num_hosts
+  mod_storage_pool_name = module.stgpool_module.storage_pool_name
+}
+
+module "ignition_module_master" {
+  source = "./modules/ignition"
+  providers = {
+    libvirt = libvirt
+  }
+  depends_on = [module.stgpool_module]
+
+  mod_disk_pool_name = var.disk_pool_name
+  mod_hostname_format = var.master_hostname_format
+  mod_ign_file_name = var.master_ign_file_name
+  mod_num_hosts = var.master_num_hosts
 }
 
 # -[VMs]-------------------------------------------------------------
@@ -82,24 +126,6 @@ resource "libvirt_domain" "bootstrap" {
     mac            = "52:54:00:00:00:b${count.index + 1}"
     wait_for_lease = true
   }
-}
-
-module "rootvol_module_master" {
-  source = "./modules/rootvol"
-  mod_base_volume_id = module.cloudimage_module.cloud_image_id
-  mod_disk_size_bytes = var.rootdiskBytes
-  mod_hostname_format = var.master_hostname_format
-  mod_num_hosts = var.master_num_hosts
-  mod_storage_pool_name = module.stgpool_module.storage_pool_name
-}
-
-
-module "ignition_module_master" {
-  source = "./modules/ignition"
-  mod_disk_pool_name = var.disk_pool_name
-  mod_hostname_format = var.master_hostname_format
-  mod_ign_file_name = var.master_ign_file_name
-  mod_num_hosts = var.master_num_hosts
 }
 
 resource "libvirt_domain" "master" {

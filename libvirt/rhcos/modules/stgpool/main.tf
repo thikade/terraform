@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "libvirt" {
-    uri = "qemu:///system"
-}
-
 # -[Resources]-------------------------------------------------------------
 resource "libvirt_pool" "diskpool" {
   name = var.mod_disk_pool_name

@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "libvirt" {
-    uri = "qemu:///system"
-}
-
 # -[Resources]-------------------------------------------------------------
 
 resource "libvirt_volume" "cloud_image" {

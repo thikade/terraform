@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "libvirt" {
-    uri = "qemu:///system"
-}
-
 # -[Resources]-------------------------------------------------------------
 resource "libvirt_volume" "rootvol" {
   name  = "${format(var.mod_hostname_format, count.index + 1)}.qcow2"
