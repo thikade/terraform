@@ -23,6 +23,8 @@ variable "bootstrap_ign_file_name" {
   default = "/vms/httpd/bootstrap.ign"
 }
 
+##### source = "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/latest/rhcos-qemu.x86_64.qcow2.gz"
+##### source = "/download/rhcos-qemu.x86_64.qcow2"
 variable "cloud_image_source" {
   type = string
   default = "/download/rhcos-qemu.x86_64.qcow2"

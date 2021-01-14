@@ -208,7 +208,7 @@ resource "libvirt_domain" "worker" {
   network_interface {
     network_name   = "NAT"
     hostname       = "${format(var.worker_hostname_format, count.index + 1)}.${var.domain}"
-    mac            = "52:54:00:00:00:c${count.index + 1}"
+    mac            = "52:54:00:00:00:d${count.index + 1}"
     wait_for_lease = true
   }
 }
