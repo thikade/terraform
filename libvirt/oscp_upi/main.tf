@@ -114,14 +114,14 @@ resource "libvirt_domain" "bootstrap" {
   memory = var.bootstrap_mem_mb
 
   disk {
-    volume_id = element(module.rootvol_module_bootstrap.rootvol_ids, count.index + 1)
+    volume_id = module.rootvol_module_bootstrap.rootvol_ids[count.index]
   }
 
   boot_device {
     dev = [ "hd", "cdrom", "network" ]
   }
 
-  coreos_ignition = element(module.ignition_module_bootstrap.ignition_resource_ids, count.index + 1)
+  coreos_ignition = module.ignition_module_bootstrap.ignition_resource_ids[count.index]
 
   graphics {
     listen_type = "address"
@@ -150,14 +150,14 @@ resource "libvirt_domain" "master" {
   memory = var.master_mem_mb
 
   disk {
-    volume_id = element(module.rootvol_module_master.rootvol_ids, count.index + 1)
+    volume_id = module.rootvol_module_master.rootvol_ids[count.index]
   }
 
   boot_device {
     dev = [ "hd", "cdrom", "network" ]
   }
 
-  coreos_ignition = element(module.ignition_module_master.ignition_resource_ids, count.index + 1)
+  coreos_ignition = module.ignition_module_master.ignition_resource_ids[count.index]
 
   graphics {
     listen_type = "address"
@@ -186,14 +186,14 @@ resource "libvirt_domain" "worker" {
   memory = var.worker_mem_mb
 
   disk {
-    volume_id = element(module.rootvol_module_worker.rootvol_ids, count.index + 1)
+    volume_id = module.rootvol_module_worker.rootvol_ids[count.index]
   }
 
   boot_device {
     dev = [ "hd", "cdrom", "network" ]
   }
 
-  coreos_ignition = element(module.ignition_module_worker.ignition_resource_ids, count.index + 1)
+  coreos_ignition = module.ignition_module_worker.ignition_resource_ids[count.index]
 
   graphics {
     listen_type = "address"

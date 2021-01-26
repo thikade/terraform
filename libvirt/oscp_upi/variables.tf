@@ -2,7 +2,7 @@
 
 variable "bootstrap_hostname_format" {
   type    = string
-  default = "bs%02d"
+  default = "BS%02d"
 }
 
 variable "bootstrap_num_hosts" {
@@ -15,7 +15,7 @@ variable "bootstrap_num_vcpu" {
 }
 
 variable "bootstrap_mem_mb" {
-  default = 1024*16
+  default = 1024*12
 }
 
 variable "bootstrap_ign_file_name" {
@@ -52,7 +52,7 @@ variable "http_base_url" {
 
 variable "master_hostname_format" {
   type    = string
-  default = "ma%02d"
+  default = "MA%02d"
 }
 
 variable "master_ign_file_name" {
@@ -70,7 +70,7 @@ variable "master_num_vcpu" {
 }
 
 variable "master_mem_mb" {
-  default = 1024*16
+  default = 1024*15
 }
 
 variable "NAT_0_mac" {
@@ -90,12 +90,12 @@ variable "rhcos_arch" {
 
 # 16Gb for root filesystem
 variable "rootdiskBytes" {
-  default = 1024*1024*1024*16
+  default = 1024*1024*1024*64
 }
 
 variable "worker_hostname_format" {
   type    = string
-  default = "wo%02d"
+  default = "WO%02d"
 }
 
 variable "worker_ign_file_name" {
@@ -104,14 +104,14 @@ variable "worker_ign_file_name" {
 }
 
 variable "worker_num_hosts" {
-  default = 2
+  default = 0
 }
 
 variable "worker_num_vcpu" {
   type = number
-  default = 2
+  default = 1
 }
 
 variable "worker_mem_mb" {
-  default = 1024*8
+  default = 1024*2
 }
