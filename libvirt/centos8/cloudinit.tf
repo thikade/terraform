@@ -22,7 +22,7 @@ data "template_file" "user_data" {
 resource "libvirt_cloudinit_disk" "commoninit" {
   name = "${format(var.hostname_format, count.index + 1)}-commoninit.iso"
   pool = libvirt_pool.diskpooldir.name
-  user_data = element(data.template_file.user_data.*.rendered, count.index + 1)
+  user_data = element(data.template_file.user_data.*.rendered, count.index)
 #####   network_config = data.template_file.network_config.rendered
   count = var.num_hosts
 }

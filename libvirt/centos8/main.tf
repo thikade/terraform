@@ -15,14 +15,14 @@ resource "libvirt_domain" "CENTOS8" {
 ##### }
 
   disk {
-    volume_id = element(libvirt_volume.rootvol.*.id, count.index + 1)
+    volume_id = element(libvirt_volume.rootvol.*.id, count.index)
   }
 
   boot_device {
     dev = [ "hd", "cdrom", "network" ]
   }
 
-  cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index + 1)
+  cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index)
 
   graphics {
     ## Bug in linux up to 4.14-rc2
