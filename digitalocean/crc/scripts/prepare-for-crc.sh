@@ -1,11 +1,11 @@
 #!/bin/bash
 
-OCP_VERSION=4.6.6
+OCP_VERSION=4.6.9
 CPUS=6
 MEMORY_GB=13
 MEMORY=$((MEMORY_GB * 1024))
 
-CRC_STARTUP_LOG=/tmp/crc_start.log
+export CRC_STARTUP_LOG=/tmp/crc_start.log
 
 # mount external volume
 mkdir -p /mnt/volume; chmod 777 /mnt/volume
@@ -80,4 +80,4 @@ cat << EOT > /tmp/crc_start.sh
 EOT
 
 echo "starting CRC cluster in background. Watch progress via:   tail -f $CRC_STARTUP_LOG "
-bash /tmp/crc_start.sh &> $CRC_STARTUP_LOG &
+nohup bash /tmp/crc_start.sh &> $CRC_STARTUP_LOG &

@@ -28,7 +28,7 @@ $TF_CMD init
 
 $TF_CMD plan
   
-echo -e '\n\nabout to execute TF apply ... (press any key)'
-read key
+#echo -e '\n\nabout to execute TF apply ... (press any key)'
+#read key
   
 $TF_CMD apply  -auto-approve=true
