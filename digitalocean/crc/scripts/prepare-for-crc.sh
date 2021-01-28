@@ -19,7 +19,7 @@ cp /mnt/volume/tmux.conf ~/.tmux.conf
 dnf -y install epel-release
 dnf -y update
 dnf -y install  bash-completion curl wget skopeo git vim python38 tmux bind-utils libvirt libvirt-daemon-kvm qemu-kvm \
-                firewalld haproxy policycoreutils-python-utils jq atd
+                firewalld haproxy policycoreutils-python-utils jq at
 
 # disable NFS
 systemctl stop rpcbind.service rpcbind.socket
