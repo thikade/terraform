@@ -1,9 +1,9 @@
 #!/bin/bash
 
-OCP_VERSION=4.6.9
-CPUS=6
+export OCP_VERSION=4.6.9
+export CPUS=6
 MEMORY_GB=13
-MEMORY=$((MEMORY_GB * 1024))
+export MEMORY=$((MEMORY_GB * 1024))
 
 export CRC_STARTUP_LOG=/tmp/crc_start.log
 
@@ -18,11 +18,14 @@ cp /mnt/volume/tmux.conf ~/.tmux.conf
 # install updates & packages
 dnf -y install epel-release
 dnf -y update
-dnf -y install bash-completion curl wget skopeo git vim python38 tmux bind-utils libvirt libvirt-daemon-kvm qemu-kvm    firewalld haproxy policycoreutils-python-utils jq
+dnf -y install  bash-completion curl wget skopeo git vim python38 tmux bind-utils libvirt libvirt-daemon-kvm qemu-kvm \
+                firewalld haproxy policycoreutils-python-utils jq atd
 
 # disable NFS
 systemctl stop rpcbind.service rpcbind.socket
 systemctl disable rpcbind.service rpcbind.socket
+
+systemctl enable --now atd
 
 # add user crc and sudo-rights
 useradd -m -g wheel crc
@@ -38,7 +41,8 @@ su - crc -c "crc config set pull-secret-file /mnt/volume/pull-secret.txt"
 su - crc -c "crc config view"
 su - crc -c "test -d ~crc/.crc/cache || mkdir -p ~crc/.crc/cache"
 su - crc -c "test -f ~crc/.crc/cache/crc_libvirt_${OCP_VERSION}.crcbundle || ln -s /mnt/volume/crc_libvirt_${OCP_VERSION}.crcbundle  ~crc/.crc/cache/crc_libvirt_${OCP_VERSION}.crcbundle"
-su - crc -c "crc setup"
+su - crc -c "test -d ~crc/.crc/cache/crc_libvirt_${OCP_VERSION} || ln -s /mnt/volume/crc_libvirt_${OCP_VERSION}  ~crc/.crc/cache/crc_libvirt_${OCP_VERSION}"
+su - crc -c "echo n | crc setup"
 
 # fix external DNS on DO Centos8 broken by "crc setup"
 cat <<EOT > /mnt/volume/99-do-dns.conf
@@ -61,6 +65,7 @@ semanage port -l | grep ^http_port_t| grep 9000 || semanage port -a -t http_port
 # autoload crc and oc completion
 grep oc-env ~crc/.bashrc || echo 'eval $(crc oc-env)' >> ~crc/.bashrc
 grep completion ~crc/.bashrc || echo 'test -f /etc/bash_completion.d/oc || which oc &>/dev/null && oc completion bash | sudo tee /etc/bash_completion.d/oc &>/dev/null' >> ~crc/.bashrc
+grep kubeconfig ~crc/.bashrc || echo 'export KUBECONFIG=~crc/.crc/cache/crc_libvirt_${OCP_VERSION}/kubeconfig' >> ~crc/.bashrc
 
 
 # echo 'Now run as user crc:    su - crc -c "crc start --nameserver 67.207.67.3 --disk-size 70 --bundle /mnt/volume/crc_libvirt_${OCP_VERSION}.crcbundle"'
@@ -80,4 +85,5 @@ cat << EOT > /tmp/crc_start.sh
 EOT
 
 echo "starting CRC cluster in background. Watch progress via:   tail -f $CRC_STARTUP_LOG "
-nohup bash /tmp/crc_start.sh &> $CRC_STARTUP_LOG &
+echo "bash /tmp/crc_start.sh &> $CRC_STARTUP_LOG" | at now +1 minute
+
