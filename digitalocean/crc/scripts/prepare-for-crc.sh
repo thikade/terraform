@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export OCP_VERSION=4.6.9
+export OCP_VERSION=4.6.6
 export CPUS=6
 MEMORY_GB=13
 export MEMORY=$((MEMORY_GB * 1024))
@@ -75,7 +75,7 @@ grep kubeconfig ~crc/.bashrc || echo "export KUBECONFIG=~crc/.crc/cache/crc_libv
 cat << EOT > /tmp/crc_start.sh
   # start crc cluster
   echo "crc start ..."
-  su - crc -c "crc start --nameserver 67.207.67.3 --disk-size 70"
+  su - crc -c "crc start --nameserver 8.8.8.8 --disk-size 70"
  
   # configure and start external haproxy
   echo "haproxy start ..."
