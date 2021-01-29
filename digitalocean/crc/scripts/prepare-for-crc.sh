@@ -65,7 +65,7 @@ semanage port -l | grep ^http_port_t| grep 9000 || semanage port -a -t http_port
 # autoload crc and oc completion
 grep oc-env ~crc/.bashrc || echo 'eval $(crc oc-env)' >> ~crc/.bashrc
 grep completion ~crc/.bashrc || echo 'test -f /etc/bash_completion.d/oc || which oc &>/dev/null && oc completion bash | sudo tee /etc/bash_completion.d/oc &>/dev/null' >> ~crc/.bashrc
-grep kubeconfig ~crc/.bashrc || echo 'export KUBECONFIG=~crc/.crc/cache/crc_libvirt_${OCP_VERSION}/kubeconfig' >> ~crc/.bashrc
+grep kubeconfig ~crc/.bashrc || echo "export KUBECONFIG=~crc/.crc/cache/crc_libvirt_${OCP_VERSION}/kubeconfig" >> ~crc/.bashrc
 
 
 # echo 'Now run as user crc:    su - crc -c "crc start --nameserver 67.207.67.3 --disk-size 70 --bundle /mnt/volume/crc_libvirt_${OCP_VERSION}.crcbundle"'
