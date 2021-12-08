@@ -10,7 +10,7 @@ variable "rhcos_arch" {
 }
 
 variable "num_hosts" {
-  default = 2
+  default = 3
 }
 
 variable "hostname_format" {

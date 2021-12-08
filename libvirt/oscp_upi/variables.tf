@@ -6,7 +6,7 @@ variable "bootstrap_hostname_format" {
 }
 
 variable "bootstrap_num_hosts" {
-  default = 1
+  default = 0
 }
 
 variable "bootstrap_num_vcpu" {
@@ -66,7 +66,7 @@ variable "master_num_hosts" {
 
 variable "master_num_vcpu" {
   type = number
-  default = 2
+  default = 3
 }
 
 variable "master_mem_mb" {
