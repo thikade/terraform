@@ -7,7 +7,7 @@ DOCKER_VERSION=20.10.13
 # sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 USERNAME=kubeadm
-useradd -m -G wheel -u 1010 $USERNAME
+useradd -m -s /bin/bash -u 1010 $USERNAME
 mkdir /home/$USERNAME/.ssh
 chmod 700 /home/$USERNAME/.ssh
 cat /root/.ssh/authorized_keys > /home/$USERNAME/.ssh/authorized_keys
@@ -17,8 +17,13 @@ echo "kubeadm ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/kubeadm
 
 
 export DEBIAN_FRONTEND=noninteractive
+echo "running: apt update" >> /tmp/setup.log
 apt update
+
+# echo "running: apt upgrade" >> /tmp/setup.log
 # apt upgrade -y
+
+echo "running: apt install" >> /tmp/setup.log
 apt install -y git curl htop net-tools bash-completion
 
 # DO agent update

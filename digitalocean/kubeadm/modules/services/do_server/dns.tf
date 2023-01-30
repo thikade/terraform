@@ -1,8 +1,12 @@
 
 
+# Create a new domain
+resource "digitalocean_domain" "cluster" {
+  name       = var.clusterDomain
+}
 resource "digitalocean_record" "server" {
   count = var.instance_count
-  domain = "2i.at"
+  domain = digitalocean_domain.cluster.id
   type = "A"
   name = var.serverNames[count.index]
   value = digitalocean_droplet.server[count.index].ipv4_address
@@ -11,7 +15,7 @@ resource "digitalocean_record" "server" {
 
 resource "digitalocean_record" "private" {
   count = var.instance_count
-  domain = "2i.at"
+  domain = var.clusterDomain
   type = "A"
   name = "${var.serverNames[count.index]}-priv"
   value = digitalocean_droplet.server[count.index].ipv4_address_private

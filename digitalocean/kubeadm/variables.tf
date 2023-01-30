@@ -4,6 +4,8 @@ variable "do_token" {
   default = "undefined-token"
 }
 
+variable "domain" {}
+
 variable "pub_key" {}
 variable "priv_key" {}
 variable "ssh_fingerprint" { type = string }

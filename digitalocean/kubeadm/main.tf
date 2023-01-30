@@ -4,12 +4,12 @@
 data "digitalocean_sizes" "main" {
   filter {
     key    = "vcpus"
-    values = [2,4]
+    values = [1,2]
   }
 
   filter {
     key    = "memory"
-    values = [1024, 8192]
+    values = [1024, 4096]
   }
 
   filter {
@@ -45,6 +45,7 @@ module "nodes" {
   # instance_count   = 1
   source           = "./modules/services/do_server"
   serverNames      = var.nodeNames
+  clusterDomain    = var.domain
   imageName        = var.droplet-image-name
   region           = "fra1"
   tags             = join(",", var.tagList)

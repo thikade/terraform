@@ -12,6 +12,7 @@ fingerprints =   [
 
 projectName = "kubeadm"
 
+domain = "kube.2i.at"
 
 # tagList = [ "k8s-node", "FW-PRIVATE" ]
 tagList = [ "k8s-node" ]

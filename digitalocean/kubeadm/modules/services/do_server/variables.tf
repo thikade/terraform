@@ -1,3 +1,8 @@
+variable "clusterDomain" {
+  description = "cluster domain"
+  type        = string
+  default     = "2i.at"
+}
 variable "serverNames" {
   description = "droplet name list"
   type        = list
